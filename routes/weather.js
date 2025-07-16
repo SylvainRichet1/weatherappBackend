@@ -54,18 +54,17 @@ router.get("/:cityName", (req, res) => {
 });
 
 router.delete("/:cityName", (req, res) => {
-  City.deleteOne({
-    cityName: { $regex: new RegExp(req.params.cityName, "i") },
-  }).then(deletedDoc => {
-    if (deletedDoc.deletedCount > 0) {
+	const searchedWeather = weather.find(
+		e=>e.cityName.toLowerCase()===req.params.cityName.toLowerCase());
+
+    if (searchedWeather) {
       // document successfully deleted
-      City.find().then(data => {
-        res.json({ result: true, weather: data });
-      });
+      weather = weather.filter(
+		e=>e.cityName.toLowerCase()!=req.params.cityName.toLowerCase());
+        res.json({ result: true, weather });
     } else {
       res.json({ result: false, error: "City not found" });
     }
   });
-});
 
 module.exports = router;
