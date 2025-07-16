@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
 	City.find().then(data => {
-		res.json({ result: true, weather: data });
+		res.json({ weather: data });
 	});
 });
 
